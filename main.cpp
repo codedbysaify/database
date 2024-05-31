@@ -6,6 +6,8 @@
 #include<windows.h>
 #include<string>
 #include<vector>
+#include "create.h"
+#include "structures.h"
 using namespace std;
 int screenWidth;
 struct select_query_struct{
@@ -29,8 +31,8 @@ manipulator(20,'~',data);
 manipulator(10,'~'," ");
 cout<<endl;
     }
-string userInput;
 select_query  user_select_query;
+string userInput;
 cout<<">>";
 getline(cin,userInput);
 
@@ -48,7 +50,12 @@ cout<<"clause: "<<(!user_select_query.clause.empty()? user_select_query.clause: 
 cout<<"Identifier : "<<(!user_select_query.identifier.empty()? user_select_query.identifier : "Null")<<endl;
 cout<<"Condition_clause : "<<(!user_select_query.condition_clause.empty()? user_select_query.condition_clause : "Null")<<endl;
 cout<<"Condition : "<<(!user_select_query.condition.empty()? user_select_query.condition: "Null")<<endl;
-}else{
+}else if(command == "create"){
+create_main(userInput);
+}
+
+
+else{
     cout<<"Invalid input!!!";
 }
 
@@ -114,18 +121,3 @@ obj.condition=data.substr(spacesIndex[4]+1,(data.length()-(spacesIndex[4]+1)));
 }
 
 }
-
-
-
-
-
-// for (int i = 0; i < spacesIndex.size(); i++)
-// {
-   
-//    cout<<"\nSpace Index : "<<spacesIndex[i];
-// }
-
-//complete select query and start making create query
-
-
-//6 8 13 22
