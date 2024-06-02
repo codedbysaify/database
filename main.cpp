@@ -1,4 +1,4 @@
-//>g++ -std=c++17 main.cpp create.cpp  -o main.exe
+//>g++ -std=c++17 main.cpp create.cpp createTable.cpp -o main.exe
 //checking c++ standard
     //cout << __cplusplus << std::endl;
 #include<iostream>
@@ -64,7 +64,7 @@ cout<<"Current database in use : "<<current_database;
 else if (command == "create_table"){
 
 
-createTable_main(userInput, current_database);
+createTable_main(userInput,current_database);
 
 
 }else{
