@@ -7,9 +7,9 @@
 using namespace std;
 void create_main(string user_command){
     
-   create obj;
+  create_database obj;
     int si=user_command.find(" ");
-    auto flag=user_command.find(" ",si+1);
+    int flag=user_command.find(" ",si+1);
     if(flag == std::string::npos){
     obj.command = user_command.substr(0,si);
     obj.databasename = user_command.substr(si+1,((user_command.length())-(si+1)));

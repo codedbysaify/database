@@ -1,4 +1,4 @@
-//>g++ -std=c++17 main.cpp -o main.exe
+//>g++ -std=c++17 main.cpp create.cpp  -o main.exe
 //checking c++ standard
     //cout << __cplusplus << std::endl;
 #include<iostream>
@@ -7,9 +7,10 @@
 #include<string>
 #include<vector>
 #include "create.h"
-#include "structures.h"
+#include "createTable.h"
 using namespace std;
 int screenWidth;
+std::string current_database;
 struct select_query_struct{
     string command_name;//what is the command
     string selector;//what to select
@@ -33,9 +34,10 @@ cout<<endl;
     }
 select_query  user_select_query;
 string userInput;
-cout<<">>";
-getline(cin,userInput);
 
+do{
+cout<<"\n>>";
+getline(cin,userInput);
 //cout<<"userInput: "<<userInput;
 if(!userInput.empty()){
 
@@ -52,19 +54,31 @@ cout<<"Condition_clause : "<<(!user_select_query.condition_clause.empty()? user_
 cout<<"Condition : "<<(!user_select_query.condition.empty()? user_select_query.condition: "Null")<<endl;
 }else if(command == "create"){
 create_main(userInput);
+}else if(command == "use"){
+int pos=userInput.find(" ");
+int flag=userInput.find(" ",pos+1);
+if(flag == std::string::npos){
+current_database = userInput.substr(pos+1,(userInput.length()-( pos+1)));
+cout<<"Current database in use : "<<current_database;
+}}
+else if (command == "create_table"){
+
+
+createTable_main(userInput, current_database);
+
+
+}else{
+    if(userInput != "exit"){
+    cout<<"Invalid input!!!";//Add custom error classes
+    }
 }
-
-
-else{
-    cout<<"Invalid input!!!";
-}
-
-
 
 }else{
     cout<<"INPUT is Empty"; //implement cpp defualt error control classes
 }
 
+
+} while(userInput != "exit");
     return 0;
 }
 
@@ -119,5 +133,4 @@ obj.identifier=data.substr(spacesIndex[2]+1,(spacesIndex[3]-(spacesIndex[2]+1)))
 obj.condition_clause=data.substr(spacesIndex[3]+1,(spacesIndex[4]-(spacesIndex[3]+1)));;
 obj.condition=data.substr(spacesIndex[4]+1,(data.length()-(spacesIndex[4]+1)));
 }
-
 }
