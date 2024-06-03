@@ -104,9 +104,9 @@ if(!table.is_open()){
 table.close();
 }
 void insertMetadata(vector<string> data,string current_db,string table){
-    for(int i=0;i<data.size();i++){
-                    cout<<data[i]<<endl;
-                }
+    // for(int i=0;i<data.size();i++){
+    //                 cout<<data[i]<<endl;
+    //             }
 
 string path="db//"+ current_db + "//" + table + ".txt";
 fstream usertable;
@@ -133,7 +133,8 @@ while (i<data.size())
     }
  
 }
-usertable<< end;
+usertable <<end;
+usertable<<endl;
 usertable.close();
 return;
 }

@@ -1,4 +1,4 @@
-//>g++ -std=c++17 main.cpp create.cpp createTable.cpp -o main.exe
+//>g++ -std=c++17 main.cpp create.cpp createTable.cpp insertInto.cpp -o main.exe
 //checking c++ standard
     //cout << __cplusplus << std::endl;
 #include<iostream>
@@ -8,6 +8,8 @@
 #include<vector>
 #include "create.h"
 #include "createTable.h"
+#include "insert.h"
+
 using namespace std;
 int screenWidth;
 std::string current_database;
@@ -67,7 +69,11 @@ else if (command == "create_table"){
 createTable_main(userInput,current_database);
 
 
-}else{
+}else if(command == "insert"){
+    insertInto_main(current_database,userInput);
+}
+
+else{
     if(userInput != "exit"){
     cout<<"Invalid input!!!";//Add custom error classes
     }
@@ -104,7 +110,7 @@ cout<<setfill(fillwith)<<setw(spaces)<<data;
 return;
 }
 
-void select_query_tokenizer(string data, select_query &obj){
+void select_query_tokenizer(std::string data,select_query &obj){
 vector<int> spacesIndex;
 
 //finding all occurances of space in query
