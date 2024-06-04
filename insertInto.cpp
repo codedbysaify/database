@@ -6,16 +6,27 @@
 using namespace std;
 void insertData(string current_db,string tabel,vector<string> data);
 int tableChecker(string db,string table);
+int validation(string current_db,string table);
 vector<string> dataParser(string user_command);
 
 void insertInto_main(std::string current_db,string user_command){
     int opos=user_command.find("o");
     int obr_pos=user_command.find("(");
     string table_name=user_command.substr(opos+2,((obr_pos)-(opos+2)));
-    cout<<tableChecker(current_db,table_name)<<endl;
     if(tableChecker(current_db,table_name)){
      vector<string> data= dataParser(user_command);
-      insertData(current_db,table_name,data);
+     int sze=validation(current_db,table_name);
+     if (data.size() == sze)
+     {
+    insertData(current_db,table_name,data);
+     }else{
+        cout<<"Error in data length"<<endl;
+        return;
+     }
+     
+    }else{
+        cout<<"Table not found"<<endl;
+        return;
     }
 
 }
@@ -102,4 +113,40 @@ vector<string> dataParser(string user_command){
     }
     return data;
 
+}
+
+int validation(string current_db,string table){
+    string path="db//"+current_db+"//"+table+".txt";
+    fstream file;
+  file.open(path,ios::in);
+  if(!file.is_open()){
+    cout<<"error opening file .... insertinto/validation"<<endl;
+    return -1;
+  }
+  string line;
+  if (getline(file,line))
+  {
+   // cout<<line<<endl;
+   int gr_pos=line.find(">");
+  int ls_pos=line.find("<",gr_pos+1);
+  string str=line.substr(gr_pos+1,ls_pos-(gr_pos+1));
+  vector<int> commas;
+  commas.push_back(-1);
+    int cm_pos=str.find(",");
+    while (cm_pos != std::string::npos)
+    {
+        commas.push_back(cm_pos);
+        cm_pos=str.find(",",cm_pos+1);
+    }
+    commas.push_back(str.length());
+    vector<string> data;
+    for (int i = 0; i < commas.size() - 1; i++)
+    {
+       data.push_back(str.substr(commas[i]+1,commas[i+1]-(commas[i]+1)) );
+    }
+      return data.size();
+  }
+
+  
+  return 0;
 }
