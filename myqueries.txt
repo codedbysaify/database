@@ -1,0 +1,11 @@
+create databasename
+
+use databasename
+
+create_table table("table headings")
+
+insert into tablename("data")
+
+select datatoselect from tablename
+
+update table datatoupdate=value where condition

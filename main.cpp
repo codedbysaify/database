@@ -1,4 +1,4 @@
-//>g++ -std=c++17 main.cpp create.cpp createTable.cpp insertInto.cpp select.cpp -o main.exe
+//>g++ -std=c++17 main.cpp create.cpp createTable.cpp insertInto.cpp select.cpp update.cpp -o main.exe
 //checking c++ standard
     //cout << __cplusplus << std::endl;
 #include<iostream>
@@ -10,10 +10,10 @@
 #include "createTable.h"
 #include "insert.h"
 #include "sel.h"
+#include "update.h"
 using namespace std;
 int screenWidth;
 std::string current_database;
-void  manipulator(int spaces,char fillwith,string data);
 int screenWidthCalculator();
 
 int main(){
@@ -54,6 +54,8 @@ current_database = userInput.substr(pos+1,(userInput.length()-( pos+1)));
 cout<<"Current database in use : "<<current_database;
 
 }
+}else if(command == "update"){
+     update_main(current_database,userInput);
 }
 else{
     if(userInput != "exit"){

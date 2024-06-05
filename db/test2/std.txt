@@ -1,2 +1,5 @@
 <metadata>name,class,code</metadata>
-cccc,dsds,123
+trump,bee,10
+jhon,bce,12
+nigga,bce,13
+oggy,bse,13

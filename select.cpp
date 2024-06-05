@@ -20,14 +20,7 @@ void select_query_tokenizer(string data,select_query &obj);
 void  select_main(std::string current_db,std::string user_command){
 select_query  user_select_query;
 select_query_tokenizer(user_command,user_select_query);
-// cout<<"Command Name : "<<(!user_select_query.command_name.empty()? user_select_query.command_name : "Null")<<endl;
-// cout<<"Selector : "<<(!user_select_query.selector.empty()? user_select_query.selector: "Null")<<endl;
-// cout<<"clause: "<<(!user_select_query.clause.empty()? user_select_query.clause: "Null")<<endl;
-// cout<<"Identifier : "<<(!user_select_query.identifier.empty()? user_select_query.identifier : "Null")<<endl;
-// cout<<"Condition_clause : "<<(!user_select_query.condition_clause.empty()? user_select_query.condition_clause : "Null")<<endl;
-// cout<<"Condition : "<<(!user_select_query.condition.empty()? user_select_query.condition: "Null")<<endl;
     dataselector(current_db,user_select_query);
-
 }
 
 
@@ -243,5 +236,5 @@ for (int i = 0; i < user_data.size(); i++)
 }else{
     cout<<"Table is empty"<<endl;
 }
-    
+    file.close();
 }
