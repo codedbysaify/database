@@ -14,7 +14,7 @@ struct select_query_struct{
     string condition;//condition
 }typedef select_query;
 
-void dataselector(string current_db,string tabel,string selector);
+void dataselector(string current_db,select_query obj);
 void select_query_tokenizer(string data,select_query &obj);
 
 void  select_main(std::string current_db,std::string user_command){
@@ -26,7 +26,7 @@ select_query_tokenizer(user_command,user_select_query);
 // cout<<"Identifier : "<<(!user_select_query.identifier.empty()? user_select_query.identifier : "Null")<<endl;
 // cout<<"Condition_clause : "<<(!user_select_query.condition_clause.empty()? user_select_query.condition_clause : "Null")<<endl;
 // cout<<"Condition : "<<(!user_select_query.condition.empty()? user_select_query.condition: "Null")<<endl;
-    dataselector(current_db,user_select_query.identifier,user_select_query.selector);
+    dataselector(current_db,user_select_query);
 
 }
 
@@ -60,8 +60,8 @@ obj.condition=data.substr(spacesIndex[4]+1,(data.length()-(spacesIndex[4]+1)));
 }
 }
 
-void dataselector(string current_db,string tabel,string selector ){
-    string path="db//"+current_db+"//"+tabel+".txt";
+void dataselector(string current_db,select_query obj ){
+    string path="db//"+current_db+"//"+obj.identifier+".txt";
     fstream file;
     file.open(path,ios::in);
     if (!file.is_open())
@@ -110,7 +110,7 @@ for (int i = 0; i < data.size(); i++)
 for (int i = 1; i < filedata.size(); i++)
 {
     string row=filedata[i];
-    cout<<row<<endl;
+    //cout<<row<<endl;
     vector<int> commas;
     commas.push_back(-1);
     int pos=row.find(",");
@@ -125,14 +125,119 @@ for (int i = 1; i < filedata.size(); i++)
         user_data[i].push_back(row.substr(commas[j]+1,commas[j+1] - (commas[j]+1)));
     }
 }
-if(selector == "*" ){
+
+if(obj.selector == "*"  &&  (obj.condition_clause == "" && obj.condition == "")){
 for (int i = 0; i < user_data.size(); i++)
 {
     for (int j = 0; j < user_data[0].size(); j++)
     {
-        cout<<setw(7)<<user_data[i][j];
+        cout<<setw(15)<<user_data[i][j];
     }
     cout<<endl;
+}
+}else if(obj.selector != "*" &&  obj.condition_clause=="" && obj.condition == ""){
+    string d_head=obj.selector;
+    int id=0;
+    for(int i=0;i<user_data[0].size();i++){
+        if(user_data[0][i]==d_head){
+           id = i;
+           break;
+        }else{
+            continue;
+        }
+    }
+    for (int i = 0; i < user_data.size(); i++)
+{
+        cout<<setw(15)<<user_data[i][id];
+        cout<<endl;
+}
+}else if (obj.selector != "*" &&  obj.condition_clause!="" && obj.condition != ""){
+string to_Select=obj.selector;
+string cond_head;
+string cond;
+int pos=obj.condition.find("=");
+cond_head=obj.condition.substr(0,pos);
+cond= obj.condition.substr(pos+1,((obj.condition.length()) -  (pos+1 )));
+//finding data index
+ string d_head=obj.selector;
+    int data_id=0;
+    for(int i=0;i<user_data[0].size();i++){
+        if(user_data[0][i]==d_head){
+           data_id = i;
+           break;
+        }else{
+            continue;
+        }
+    }
+
+    int cond_id=0;
+    for(int i=0;i<user_data[0].size();i++){
+        if(user_data[0][i]==cond_head){
+           cond_id = i;
+           break;
+        }else{
+            continue;
+        }
+    }
+
+   cout<<setw(15)<<user_data[0][data_id]<<endl;
+   for (int i = 1; i < user_data.size(); i++)
+{
+   if(user_data[i][cond_id] == cond){
+     cout<<setw(15)<<user_data[i][data_id]<<endl;
+   }
+}
+
+}else if( obj.selector == "*" &&  obj.condition_clause!="" && obj.condition != ""){
+   string to_Select=obj.selector;
+string cond_head;
+string cond;
+int pos=obj.condition.find("=");
+cond_head=obj.condition.substr(0,pos);
+cond= obj.condition.substr(pos+1,((obj.condition.length()) -  (pos+1 )));
+//finding data index
+ string d_head=obj.selector;
+    int data_id=0;
+    for(int i=0;i<user_data[0].size();i++){
+        if(user_data[0][i]==d_head){
+           data_id = i;
+           break;
+        }else{
+            continue;
+        }
+    }
+
+    int cond_id=0;
+    for(int i=0;i<user_data[0].size();i++){
+        if(user_data[0][i]==cond_head){
+           cond_id = i;
+           break;
+        }else{
+            continue;
+        }
+    }
+
+for (int i = 0; i < user_data.size(); i++)
+{
+    int flag=0;
+    for (int j = 0; j < user_data[0].size(); j++)
+    {
+    
+            if( i == 0){
+        cout<<setw(15)<<user_data[i][j];
+        flag=1;
+        }else if(user_data[i][cond_id] == cond){
+        cout<<setw(15)<<user_data[i][j];
+         flag=1;
+        }else{
+            flag=0; 
+            continue;
+        }
+        
+    }
+    if(flag){
+        cout<<endl;
+    }
 }
 }
 }else{

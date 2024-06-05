@@ -1,1 +1,5 @@
 <metadata>name,class,enrollment</metadata>
+alice,bce,01-123123-45
+mona,bce,01-123123-46
+jack,bce,01-123123-47
+oggy,bse,01-123123-47
