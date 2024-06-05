@@ -1,4 +1,4 @@
-//>g++ -std=c++17 main.cpp create.cpp createTable.cpp insertInto.cpp select.cpp update.cpp -o main.exe
+//>g++ -std=c++17 main.cpp create.cpp createTable.cpp insertInto.cpp select.cpp update.cpp delete.cpp info.cpp -o main.exe
 //checking c++ standard
     //cout << __cplusplus << std::endl;
 #include<iostream>
@@ -11,6 +11,8 @@
 #include "insert.h"
 #include "sel.h"
 #include "update.h"
+#include "del.h"
+#include "info.h"
 using namespace std;
 int screenWidth;
 std::string current_database;
@@ -56,6 +58,12 @@ cout<<"Current database in use : "<<current_database;
 }
 }else if(command == "update"){
      update_main(current_database,userInput);
+}else if(command == "delete"){
+    del_main(current_database,userInput);
+}else if(command == "databaseinfo"){
+    database_info(current_database);
+}else if(command == "tableinfo"){
+ table_info(current_database,userInput);
 }
 else{
     if(userInput != "exit"){

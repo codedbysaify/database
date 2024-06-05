@@ -1,65 +1,57 @@
 #include<iostream>
-#include<string>
-#include<vector>
 #include<fstream>
 #include<iomanip>
+#include<string>
+#include<vector>
 using namespace std;
-void tokenizer(string command);
-void table_reader(string curernt_db,string table);
-//update update_data name=saif where name=saiiif
-
-vector<string>update_data;
-
-
-void update_main(std::string current_db,std::string user_command){
+void del_tokenizer(string user_command);
+void deleter(string current_db,string table);
+vector<string> delete_data;
+void del_main(std::string current_db,std::string user_command){
     //cout<<user_command<<endl;
-     tokenizer(user_command);
-//      cout<<"Table : " <<update_data[0]<<endl;
-// cout<<"update heading : "<<update_data[1]<<endl;
-// cout<<"update value : "<<update_data[2]<<endl;
-// cout<<"condition heading : "<<update_data[3]<<endl;
-// cout<<"condition value : "<<update_data[4]<<endl;
-table_reader(current_db,update_data[0]);
+      
+      del_tokenizer(user_command);
+// cout<<"delete from : "<<delete_data[0]<<endl;
+// cout<<"delete : " <<delete_data[1]<<endl;
+// cout<<"condition head: "<<delete_data[2]<<endl;
+// cout<<"condition value : "<<delete_data[3]<<endl;
 
-
-}
-
-
-void tokenizer(string command){
-
-int pos=command.find(" ");//position of first space
-int pos2=command.find(" ",pos+1);//position of second space
-
-string table=command.substr(pos+1,pos2-(pos+1));
-
-int pos3=command.find(" ",pos2+1);//third space position
-string upstate=command.substr(pos2+1,pos3-(pos2+1));
-
-if(command.substr(pos2+1,pos3-(pos2+1)).find("=") == std::string::npos){
-    cout<<"invalid command"<<endl;
-    return;
-}
-int epos=upstate.find("=");
-string update_head=upstate.substr(0,epos);
-string update_val=upstate.substr(epos+1,upstate.length() - (epos+1));
-
-int pos4=command.find(" ",pos3+1);
-string condition=command.substr(pos4+1,command.length()-(pos4+1));
-int cepos=condition.find("=");
-string condition_head=condition.substr(0,cepos);
-string condition_value=condition.substr(cepos+1,condition.length() - (cepos+1));
-
-// cout<<"Table :" <<table<<endl;
-// cout<<"update heading : "<<update_head<<endl;
-// cout<<"update value : "<<update_val<<endl;
-// cout<<"condition heading : "<<condition_head<<endl;
-// cout<<"condition value : "<<condition_value<<endl;
- update_data={table,update_head,update_val,condition_head,condition_value}; 
+ deleter(current_db,delete_data[0]);
 
 }
 
-void table_reader(string current_db,string table){
-   string path="db//"+current_db+"//"+table+".txt";
+// delete name from data where name=saif
+//delete name from data where name=saif
+void del_tokenizer(string user_command){
+
+int pos=user_command.find(" ");//position for first space
+int pos2=user_command.find(" ",pos+1);//position for second space 
+
+string to_delete=user_command.substr(pos+1,pos2 - (pos+1));
+
+int pos3=user_command.find(" ",pos2+1);//position of third space
+int pos4=user_command.find(" ",pos3+1);//position of forth space
+
+string delete_from=user_command.substr(pos3+1,pos4 - (pos3+1));
+
+int pos5=user_command.find(" ",pos4+1);
+string condition= user_command.substr(pos5+1,(user_command.length() - (pos5+1)));
+
+int epos=condition.find("=");
+
+string condition_head=condition.substr(0,epos);
+string condition_val=condition.substr(epos+1,(condition.length()-(epos+1)));
+
+
+
+delete_data={delete_from,to_delete,condition_head,condition_val};
+}
+
+
+void deleter(string current_db,string table){
+
+    try{
+       string path="db//"+current_db+"//"+table+".txt";
     fstream file;
     file.open(path,ios::in);
     if (!file.is_open())
@@ -92,6 +84,7 @@ void table_reader(string current_db,string table){
     }
     commas.push_back(str.length());
     vector<string> data;
+
 
     for (int i = 0; i < commas.size() - 1; i++)
     {
@@ -131,13 +124,13 @@ for (int i = 0; i < user_data.size(); i++)
 }
 cout<<setw(50)<<"------ "<<endl;
 
-int update_id=0;
+int del_id=0;
 
 for (int i = 0; i < user_data[0].size(); i++)
 {
-    if (user_data[0][i] == update_data[1] )
+    if (user_data[0][i] == delete_data[1] )
     {
-       update_id=i;
+       del_id=i;
     }else{
         if (i == user_data[0].size())
         {
@@ -154,7 +147,7 @@ int condition_id=0;
 
 for (int i = 0; i < user_data[0].size(); i++)
 {
-    if (user_data[0][i] == update_data[3] )
+    if (user_data[0][i] == delete_data[2] )
     {
        condition_id=i;
     }else{
@@ -172,11 +165,11 @@ for (int i = 1; i < user_data.size(); i++)
 {
     for (int j = 0; j < user_data[0].size(); j++)
     {
-        if ((user_data[i][j] == update_data[4]) && j == condition_id )
+        if ((user_data[i][j] == delete_data[3]) && j == condition_id )
         {
             // cout<<user_data[i][j]<<endl;
             // cout<<update_data[4]<<endl;
-             user_data[i][update_id] = update_data[2];
+             user_data[i][del_id] = "";
         }else{
             continue;
         }
@@ -236,5 +229,9 @@ file.close();
 
 
 }
+    }catch(...){
+        cout<<"invalid command"<<endl;
+        return;
+    }
 
 }

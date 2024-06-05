@@ -9,3 +9,8 @@ insert into tablename("data")
 select datatoselect from tablename
 
 update table datatoupdate=value where condition
+
+delete dataname from tablename where condition
+
+databaseinfo //shows info of selected database
+tableinfo tablename //database should be selected before this query
